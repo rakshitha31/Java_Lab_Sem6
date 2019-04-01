@@ -1,0 +1,299 @@
+class ProgressBarThread extends Thread {
+private JFrame frame; private JProgressBar jp; private JTextField fromFile; private JTextField toFile; public boolean cancel = false;
+public ProgressBarThread(JFrame f, JProgressBar jp, JTextField from, JTextField to)
+{ frame = f; }
+this.jp = jp; fromFile = from; toFile = to;
+public void run()
+Home /	FAQ /	Core Java Technology /	IO
+The changing face of BI: Predictive Analytics, Cognitive Services, and AI. Download your free eBook today!
+
+How can I show a progress bar while reading a file?
+Created May 14, 2012
+
+facebook twitter in Email
+Scott Stanchfield
+Here's a simple example of monitoring file read progress
+
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.ProgressMonitorInputStream;
+
+public class Test {
+  public static void main(String[] args) {
+    // create a test frame with a "press me" button
+    final JFrame f = new JFrame("Sample");
+    f.getContentPane().setLayout(new FlowLayout());
+    JButton b = new JButton("Press me");
+    f.getContentPane().add(b);
+    f.pack();
+
+    // set up the file read action
+    b.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        // when button is pressed, start a new thread
+        //   to read the file. A new thread is needed because we
+        //   need to free the GUI update thread to paint the
+        //   progress monitor
+        new Thread() {
+          public void run() {
+            try {
+              // open the file, wrapping it in a ProgressMonitorInputStream
+              InputStream in = new FileInputStream("c:Bigfile.bin");
+              ProgressMonitorInputStream pm = 
+                  new ProgressMonitorInputStream(f,"Reading the big file",in);
+              // read the file. If it's taking too long, the progress
+              //   monitor will appear. The amount of time is roughly
+              //   1/100th of the estimated read time (based on how long
+              //   it took to read the first 1/100th of the file.)
+              //   Note that by default, the dialog won't appear unless
+              //   the overall estimate is over 2 seconds.
+              int c;
+              while((c=pm.read()) != -1) {
+                // do something
+              }
+              pm.close(); // needs better error handling, of course...
+            }
+            catch(Exception ex) {
+              ex.printStackTrace();
+            }
+          }
+        }.start();
+      }});  
+  
+    // display the frame
+    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    f.setVisible(true);
+  }
+}
+Post a commentEmail ArticlePrint Article
+Related White Papers and Webcasts
+
+Modernizing Enterprise IT: Motivators and Challenges
+By Okta 
+April 1, 2019
+Many organizations are embracing an approach to modernizing IT. And the benefits of replacing legacy infrastructure are clear, including reduced costs and increased business agility. But modernizing IT can mean different things to different IT leaders, and the reasons behind it can vary from business to business. Continue reading...
+9 Comments  (click to add your comment)
+By ADAMDecember 12 2016
+The mentioned program is having some problem, I tried to run, it is stopping at PRESS ME, after that it is not showing the progress bar. Can this program be checked again. I'm new to swing,so still trying to figure it out. ~Hellow
+
+ Reply to this comment	Reply to this comment
+By johnOctober 4 2014
+Not working.Waste of time
+
+ Reply to this comment	Reply to this comment
+By TejaswiniAugust 4 2014
+Thanks ......for give me guidance in my project.
+
+ Reply to this comment	Reply to this comment
+By Tisha MehtalaFebruary 8 2012
+This is also a very good post which I really enjoyed reading. It is not everyday that I have the possibility to see something like this. edible arrangements coupons
+
+ Reply to this comment	Reply to this comment
+By guo xingOctober 27 2011
+<h1>kensington wall notebook power adapter</h1> <h2>kensington wall notebook power adapter</h2> kensington wall notebook power adapter
+
+ Reply to this comment	Reply to this comment
+By afmrv bgksOctober 10 2011
+folder bag
+
+ Reply to this comment	Reply to this comment
+By hellow wJuly 11 2010
+The mentioned program is having some problem, I tried to run, it is stopping at PRESS ME, after that it is not showing the progress bar. Can this program be checked again. I'm new to swing,so still trying to figure it out. ~Hellow
+
+ Reply to this comment	Reply to this comment
+By prince prince11April 21 2012 15:29 UTC
+I am happy to find this post Very useful for me, as it contains lot of information. I Always prefer to read The Quality and glad I found this thing in you post. Thanks cheap insurance
+
+By superking superkingApril 08 2012 18:18 UTC
+This blog is so nice to me. I will keep on coming here again and again. Visit my link as well.. Benefits
+
+By superking superkingMarch 22 2012 17:21 UTC
+I'm glad I found this web site, I couldn't find any knowledge on this matter prior to.Also operate a site and if you are ever interested in doing some visitor writing for me if possible feel free to let me know, im always look for people to check out my web site. affordable auto insurance
+
+By superking superkingMarch 11 2012 14:16 UTC
+hello!! Very interesting discussion glad that I came across such informative post. Keep up the good work friend. Glad to be part of your net community. HoMedics back massager
+
+By superking superkingFebruary 19 2012 14:54 UTC
+Thanks for the blog loaded with so many information. Stopping by your blog helped me to get what I was looking for. honda ??????
+
+By superking superkingFebruary 16 2012 20:27 UTC
+Positive site, where did u come up with the information on this posting? I'm pleased I discovered it though, ill be checking back soon to find out what additional posts you include. frases para facebook
+
+By jazzbee11 jazzbeeFebruary 16 2012 17:36 UTC
+I really loved reading your blog. It was very well authored and easy to undertand. Unlike additional blogs I have read which are really not tht good. I also found your posts very interesting. In fact after reading, I had to go show it to my friend and he ejoyed it as well! instant cash usa
+
+By jazzbee11 jazzbeeFebruary 16 2012 14:23 UTC
+Thank you so much for the post you do. I like your post and all you share with us is up to date and quite informative, i would like to bookmark the page so i can come here again to read you, as you have done a wonderful job. funny facebook status
+
+By bigman bigmanFebruary 16 2012 10:42 UTC
+Thanks for posting this info. I just want to let you know that I just check out your site and I find it very interesting and informative. I can't wait to read lots of your posts. greenhouse
+
+By superking superkingFebruary 15 2012 10:46 UTC
+Very nice article, I enjoyed reading your post, very nice share, I want to twit this to my followers. Thanks! Templatesspot.com
+
+By superking superkingFebruary 15 2012 10:00 UTC
+This is really a nice and informative, containing all information and also has a great impact on the new technology. Thanks for sharing it.. Templatesspot
+
+By spiderman spidermanFebruary 11 2012 17:15 UTC
+I really thank you for the valuable info on this great subject and look forward to more great posts. Thanks a lot for enjoying this beauty article with me. I am appreciating it very much! Looking forward to another great article. Good luck to the author! All the best! brain training
+
+By powerplay powerplayFebruary 11 2012 14:28 UTC
+Positive site, where did u come up with the information on this posting?I have read a few of the articles on your website now, and I really like your style. Thanks a million and please keep up the effective work. Mobiltelefoner med abonnement
+
+By superking superkingFebruary 09 2012 17:52 UTC
+This is such a great resource that you are providing and you give it away for free. I love seeing blog that understand the value of providing a quality resource for free. Fleshlight
+
+By superking superkingFebruary 02 2012 17:27 UTC
+I haven’t any word to appreciate this post.....Really i am impressed from this post....the person who create this post it was a great human..thanks for shared this with us. promotional codes
+
+By hellow wJuly 11 2010
+The mentioned program is having some problem, I tried to run, it is stopping at PRESS ME, after that it is not showing the progress bar. Can this program be checked again. I'm new to swing,so still trying to figure it out. ~Hellow
+
+ Reply to this comment	Reply to this comment
+By The Viper!!September 6 2006
+Simple... Sweet.. and it works!!! Gr8 work!
+
+ Reply to this comment	Reply to this comment
+Comment and Contribute
+ 
+
+ Your name/nickname
+
+ Your email
+
+ WebSite
+
+ Subject
+
+
+(Maximum characters: 1200). You have 1200 characters left.
+
+
+ 
+ 
+
+Write a Program that simulates a telephone that records missed incoming calls. For each missed call, store
+the time of call, telephone number of origin, and name of the called if the name is available. For unlisted
+numbers, set the name to “private caller”. Choose or extend the most appropriate collection class and
+provide the following features.
+a) Numbers are recalled in the order they arrive
+b) Up to 10 numbers are recorded. When the eleventh call comes in, it is stored and the oldest call is
+deleted so that no more than 10 numbers are ever recorded.
+c) After each number display, the user can select
+a. to delete the call
+b. to go on to the next missed call, or
+c. to display the call details (number, caller name and time).
+d) Delete the number if user specifies a number to delete.
+e) Write a helper class to represent an incoming call with fields to hold the number, name of the caller,
+and time of the call. Write a tester call that stores the several numbers, simulate the user pressing
+the missed-calls button, and finally prints the entire collection of stored calls.
+2. Write a Java program using user-defined storage classes to create a book database and store it in a
+Collection List. Books collection should include title, author, publisher and price. Also write a method to
+sort the books in ascending order of price and store it in another List.
+3. Write a program that uses Java Swing and JDBC to create a stand-alone application:
+a. Create two tables namely, Representative (RepNo, RepName, State, Comission, Rate) and
+Customer (CustNo, CustName, State, Credit_Limit, RepNo) in MySQL database.
+b. Use appropriate Swing components to insert values in a form.
+c. Use another form to display Representative?s information whose Credit_Limit is above
+15,000.
+4. Write a Java Swing program to simulate a traffic light. The program lets the user select one of three lights:
+red, yellow, or green with radio buttons. On selecting a button, an appropriate message with “stop” or
+“ready” or “go” should appear above the buttons in a selected color.
+5. Write a Java program to create a progress bar GUI which displays the copy status of writing contents of
+one file to another file. Terminate the progress bar on click of STOP button and display the contents of the
+file.
+6. Create a Servlet to file IT returns that accepts personal information, salary information and Tax deduction
+details from the user and write the information into a file. Also accept the name of the person and display
+in on the page.
+7. Write a JSP and Servlet Program to do the following to buy a T-Shirt online:
+a. A set of checkboxes to select your T-Shirt accessories such as „belt?, „cap?, „hair-band? etc.
+b. A text area / text field to enter your T-Shirt tag-line
+c. A Radio-button that allows the user to choose between T-Shirt with chest pocket and without.
+d. A Combo Box to choose your T-Shirt color
+e. Appropriate labels for these GUI Components
+f. A Button called “Click Me” which when pressed will
+g. Insert the details entered into a table called „TShirts?.
+h. An OrderNo is generated by adding „1? to the existing „OrderNo?
+i. If „TShirts? table is empty the initial value of „OrderNo? is 100.
+j. This „OrderNo? is also inserted into the „TShirts? table
+k. Display all the records of the „TShirts? table in tabular form
+PS: Frontend display should be in JSP and the business logic should be written in Servlet Class.
+8. Create a Telephone Directory Application using Servlet that searches the database based on phone number
+or name. Also show database table creation with inserting 2-3 values to the table.
+a. Database Name: OnlineDirectory
+b. Table Design:
+i. Table Name: Telephone_Directory
+i. Attributes: Phone_Number, Nam
+31
+i. Use Java Collections to make a list of valid users and facilitate user login
+functionality.
+ii. Give a personalized Welcome message and display today?s date.
+iii. Have a Text Entry with label „Name? to enter the name of the user.
+iv. Give a List of Organizations to choose „Place of Work?
+v. Provide a Male or Female option to choose the „Gender?
+vi. Have a Text Entry with label „Annual Income?
+vii. Give a Submit button reading „Calculate Tax?
+b. CalculateTax.jsp must calculate the interest based on the following business rules:
+i. Salary below 1,00,000 shall no have income-tax.
+ii. Calculate 15% of tax on 1,00,001 – 5,00,000.
+iii. Calculate 20% on 5,00,001 onwards.
+PS: The final income tax along with the details of how it is calculated must be put in a session object and
+displayed to the user in dataCapture.jsp. All the income taxes calculated so far by the user, must be taken out
+of the session object and displayed, each time in dataCapture.jsp which has a link called „Logout’ that destroys
+the session.
+11. a. Create two tables Flight (Flight_Number, Airline_Name, Weekdays) and
+SeatReservation(Flight_Number, Date, Seat_Number, Customer_Name, Customer_Phone) in MySQL
+database.
+b. Create JSP page ReserveOnline.jsp to reserve an airline seat and insert the values into the table
+SeatReservation. OnClick of Submit in ViewDetails.jsp display information about reservation. Validate
+the Flight_Number from already existing Flight database and generate random number for Seat_Number
+within the range 1-500.
+c. Also create a link to display information of all the flights running on a particular day.
+12. Write a program using java.net to transfer file from client socket to server socket.
+Text Books:
+1. Herbert Schildt, „The Complete Reference Java (J2SE 5 Edition)?, TATA McGRAW-HILL Edition 2005.
+2. Ivan Bayross, Sharanam Shah, Cyntiha Bayross and Vishali Shah, „Java EE 5 for Beginners?, SPD
+(Sharoff Publishers & Distributors Pvt. Ltd.), 2nd edition August 2008.
+References:
+1. Jim Keogh, „The Complete Reference J2EE?, TATA McGRAW-HILL Edition 2002.
+2. B V Kumar, S Sangeetha, S V Subrahmanya, J2EE Architecture, TATA McGRAW-HILL Edition 2007.
+Course Outcomes:
+1. Design and Develop Java programs using the Java concepts such as packages, inheritance, interfaces,
+exception handling, collection frameworks, Swings, Servlets, JSP, JDBC and Multithreading. (PO - 2, 4)
+(PSO – 1)
+2. Apply java concepts in various domains. (PO - 4) (PSO – 2)
+3. Produce a substantial written documentation. (PO - 10) (PSO - 3)
+32
+MACHINE LEARNING
+Course Code: ISEB1 Credits: 4:0:0:0
+Course Coordinator: Dr. Mydhili K Nair Contact Hours: 56L
+ Prerequisites : Python, Probability Theory and Statistics
+UNIT-I
+Introduction to Machine Learning - What is Machine Learning? Examples of Machine Learning Applications.
+Types of Machine Learning; Supervised Learning; The Machine Learning Process, A Note on Programming
+Machine Learning Preliminaries - Terminology: Weight Space, The Curse of Dimensionality; Testing Machine
+Learning Algorithms; Turning Data into Probabilities: Minimizing Risk, The Naive Bayes Classifier; Basic
+Statistics: Averages, Variance and Covariance, The Gaussian; Bias-Variance Tradeoff
+ 
+
+Most Popular jGuru Stories
+Editor's Picks
+Most Popular
+The Java Game Development Tutorial
+Files and Directories in Java
+Load Testing your Applications with Apache JMeter
+Unit Testing Java Programs
+Using SOAP with Java
+
+ 
+Site Logo
+A Developer.com Property
+Terms of Service | Licensing & Reprints | About Us | Privacy Policy | Contact Us | Advertise | Sitemap
+Copyright 2019 QuinStreet Inc. All Rights Reserved.
+Advertiser Disclosure: Some of the products that appear on this site are from companies from which QuinStreet receives compensation. This compensation may impact how and where products appear on this site including, for example, the order in which they appear. QuinStreet does not include all companies or all types of products available in the marketplace.
